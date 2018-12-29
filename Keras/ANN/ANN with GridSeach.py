@@ -88,7 +88,21 @@ model.fit(x=X_train, y=y_train,callbacks = callback_list,verbose=1)
 acc = cross_val_score(estimator=model, X=X_train, y=y_train, cv=5, verbose=0)
 print(acc.mean())
 print(acc.std())
+#85.4% Accuracy
 
+# Train on full data
+model =  KerasClassifier(build_fn=classifier_fn, epochs=100, batch_size=10)
+model.fit(x=X_train, y=y_train,verbose=1)
+
+# Predicting the Test set results
+y_pred = model.predict(X_test)
+y_pred = (y_pred > 0.5)
+
+# Making the Confusion Matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+#86.9% Accuracy
 
 
     
