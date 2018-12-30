@@ -9,7 +9,7 @@ Created on Sat Dec 29 18:26:03 2018
 from keras.models import Sequential
 from keras.layers import Dense, Convolution2D, MaxPooling2D, Flatten, Dropout
 
-img_size=64
+img_size=128
 
 #Initialize CNN
 classifier = Sequential()
@@ -23,17 +23,23 @@ classifier.add(Convolution2D(filters=32,kernel_size=(3,3),strides=(1,1),
 classifier.add(MaxPooling2D(pool_size=(2,2)))
 
 #Convoluton Layer 2
-#classifier.add(Convolution2D(filters=32,kernel_size=(3,3),strides=(1,1),activation="relu"))
+classifier.add(Convolution2D(filters=32,kernel_size=(3,3),strides=(1,1),activation="relu"))
 
 #MaxPooling Layer 2
-#classifier.add(MaxPooling2D(pool_size=(2,2)))
+classifier.add(MaxPooling2D(pool_size=(2,2)))
+
+#Convoluton Layer 3
+classifier.add(Convolution2D(filters=64,kernel_size=(3,3),strides=(1,1),activation="relu"))
+
+#MaxPooling Layer 3
+classifier.add(MaxPooling2D(pool_size=(2,2)))
 
 #Flatten
 classifier.add(Flatten())
 
 #Fully Connected layer
-classifier.add(Dense(units=128, activation="relu"))
-#classifier.add(Dropout(rate=0.1))
+classifier.add(Dense(units=64, activation="relu"))
+classifier.add(Dropout(rate=0.5))
 
 #classifier.add(Dense(units=128, activation="relu"))
 #classifier.add(Dropout(rate=0.1))
@@ -79,9 +85,10 @@ cbk = [EarlyStopping(monitor="loss",min_delta=0.001,patience=3, restore_best_wei
 classifier.fit_generator(
             training_set,
             steps_per_epoch=(8000/32),
-            epochs=30,
+            epochs=30,workers=5,
             validation_data=test_set,
             validation_steps=(2000/32),
+            max_queue_size=100,
             callbacks=cbk)
 
 classifier.summary() 
