@@ -67,7 +67,29 @@ test_set[test_set==0] = -1
 test_set[test_set==1] = 0
 test_set[test_set==2] = 0
 test_set[test_set>=3] = 1
-
+"""
+We have to create a class with three functions for the Restricted Boltzmann
+Machine which it will obey.
+        
+1. Initialise tensors of all weights and biases of the  visible nodes and
+   hidden nodes. Add weight parameter of the probabilities of the visible 
+   nodes according to the hidden nodes.
+2. Sample hidden nodes
+   For every each hidden node activate them for a given probablity given v.
+   In which the activation is a linear function of the neurons where the 
+   coefficients are the functions. So, the activation is probability that the
+   hidden node will be activated according to the value of the visible node. 
+   The activation is returned as a sigmoid function. But we're making a 
+   Bernoulli RBM. p[h|v] is vector of nh elements, each element corresponds to 
+   each hidden node. We use this probabilities to sample activation of each 
+   hidden node, depending on p[h|v] for v. If randn < 0.7 = activate neuron, 
+   and if randn > 0.7 = not activate neuron. Obtain vector with a binary outcome 
+   to list which hidden nodes activated or not activated.
+3. Sample visible nodes.
+   If randn < 0.25 = activate neuron, 
+   and if randn > 0.25 = not activate neuron. Obtain vector with a binary outcome 
+   to list which hidden nodes activated or not activated.
+"""
 class RBM():
     #Initializes the weights and Biases according to Normal Dist
     def __init__(self, nv, nh): 
